@@ -92,8 +92,8 @@ function AuthContextProvider(props) {
                         user: response.data.user
                     }
                 })
-                auth.loginUser(email,password);
             }
+            history.push("/login");
         } catch (error) {
             console.log(error.response.data.errorMessage);
             authReducer({
