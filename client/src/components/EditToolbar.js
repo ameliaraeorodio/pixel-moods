@@ -27,9 +27,24 @@ function EditToolbar() {
     function handleClose() {
         store.closeCurrentList();
     }
+    const button = {
+        color: '#FFC1CC', 
+        backgroundColor: 'white', 
+        borderColor: '#FFC1CC',
+        borderStyle: 'solid',
+        borderWidth: '1px',
+        '&:hover':{
+            color: 'white', 
+            backgroundColor: '#FFC1CC', 
+            borderColor: 'white',
+            borderStyle: 'solid',
+            borderWidth: '1px',
+        }
+    }
     return (
         <div id="edit-toolbar">
             <Button
+                sx = {button}
                 disabled={!store.canAddNewSong()}
                 id='add-song-button'
                 onClick={handleAddNewSong}
@@ -37,6 +52,7 @@ function EditToolbar() {
                 <AddIcon />
             </Button>
             <Button 
+                sx = {button}
                 disabled={!store.canUndo()}
                 id='undo-button'
                 onClick={handleUndo}
@@ -44,13 +60,15 @@ function EditToolbar() {
                     <UndoIcon />
             </Button>
             <Button 
+                sx = {button}
                 disabled={!store.canRedo()}
                 id='redo-button'
                 onClick={handleRedo}
                 variant="contained">
                     <RedoIcon />
             </Button>
-            <Button 
+            <Button
+                sx = {button}
                 disabled={!store.canClose()}
                 id='close-button'
                 onClick={handleClose}
