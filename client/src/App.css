@@ -69,9 +69,12 @@ body {
 
 #edit-toolbar {
   background-color: transparent;
+  float: left;
+}
+#publishing-bar{
+  background-color: transparent;
   float: right;
 }
-
 .playlister-button,
 .playlister-button-disabled {
   font-size: 36pt;

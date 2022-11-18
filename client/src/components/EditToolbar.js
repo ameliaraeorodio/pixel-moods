@@ -5,6 +5,7 @@ import AddIcon from '@mui/icons-material/Add';
 import RedoIcon from '@mui/icons-material/Redo';
 import UndoIcon from '@mui/icons-material/Undo';
 import CloseIcon from '@mui/icons-material/HighlightOff';
+import { Typography } from '@mui/material';
 
 /*
     This toolbar is a functional React component that
@@ -24,15 +25,13 @@ function EditToolbar() {
     function handleRedo() {
         store.redo();
     }
-    function handleClose() {
-        store.closeCurrentList();
-    }
     const button = {
         color: '#FFC1CC', 
         backgroundColor: 'white', 
         borderColor: '#FFC1CC',
         borderStyle: 'solid',
         borderWidth: '1px',
+        margin: '4px',
         '&:hover':{
             color: 'white', 
             backgroundColor: '#FFC1CC', 
@@ -43,21 +42,13 @@ function EditToolbar() {
     }
     return (
         <div id="edit-toolbar">
-            <Button
-                sx = {button}
-                disabled={!store.canAddNewSong()}
-                id='add-song-button'
-                onClick={handleAddNewSong}
-                variant="contained">
-                <AddIcon />
-            </Button>
             <Button 
                 sx = {button}
                 disabled={!store.canUndo()}
                 id='undo-button'
                 onClick={handleUndo}
                 variant="contained">
-                    <UndoIcon />
+                <Typography>Undo</Typography>
             </Button>
             <Button 
                 sx = {button}
@@ -65,15 +56,14 @@ function EditToolbar() {
                 id='redo-button'
                 onClick={handleRedo}
                 variant="contained">
-                    <RedoIcon />
+                <Typography>Redo</Typography>
             </Button>
-            <Button
+            <Button 
                 sx = {button}
-                disabled={!store.canClose()}
-                id='close-button'
-                onClick={handleClose}
+                id='add-song-button'
+                onClick={handleAddNewSong}
                 variant="contained">
-                    <CloseIcon />
+                <Typography>Add</Typography>
             </Button>
         </div>
     )

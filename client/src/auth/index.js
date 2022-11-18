@@ -89,7 +89,7 @@ function AuthContextProvider(props) {
                 authReducer({
                     type: AuthActionType.REGISTER_USER,
                     payload: {
-                        user: response.data.user
+                        user: null
                     }
                 })
             }

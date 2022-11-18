@@ -6,6 +6,16 @@ import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
 import ListItem from '@mui/material/ListItem';
 import TextField from '@mui/material/TextField';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import SongCard from './SongCard.js'
+import List from '@mui/material/List';
+import EditToolbar from './EditToolbar'
+import PublishingBar from './PublishingBar';
+
 
 /*
     This is a card in our list of playlists. It lets select
@@ -47,12 +57,6 @@ function ListCard(props) {
         setEditActive(newActive);
     }
 
-    async function handleDeleteList(event, id) {
-        event.stopPropagation();
-        let _id = event.target.id;
-        _id = ("" + _id).substring("delete-list-".length);
-        store.markListForDeletion(id);
-    }
 
     function handleKeyPress(event) {
         if (event.code === "Enter") {
@@ -73,31 +77,49 @@ function ListCard(props) {
     if (store.isListNameEditActive) {
         cardStatus = true;
     }
-    let cardElement =
-        <ListItem
-            id={idNamePair._id}
-            key={idNamePair._id}
-            sx={{ marginTop: '15px', display: 'flex', p: 1 }}
-            style={{ width: '100%', fontSize: '48pt' }}
-            button
-            onClick={(event) => {
-                handleLoadList(event, idNamePair._id)
-            }}
+    let songList = "";
+    let editToolbar = "";
+    let publishingBar = "";
+    if (store.currentList) {
+        songList = <List 
+            id="playlist-cards" 
+            sx={{ width: '100%', bgcolor: 'background.paper'}}
         >
-            <Box sx={{ p: 1, flexGrow: 1, overflowX: 'auto' }}>{idNamePair.name}</Box>
-            <Box sx={{ p: 1 }}>
-                <IconButton onClick={handleToggleEdit} aria-label='edit'>
-                    <EditIcon style={{fontSize:'48pt'}} />
-                </IconButton>
-            </Box>
-            <Box sx={{ p: 1 }}>
-                <IconButton onClick={(event) => {
-                        handleDeleteList(event, idNamePair._id)
-                    }} aria-label='delete'>
-                    <DeleteIcon style={{fontSize:'48pt'}} />
-                </IconButton>
-            </Box>
-        </ListItem>
+            {
+                store.currentList.songs.map((song, index) => (
+                    <SongCard
+                        id={'playlist-song-' + (index)}
+                        key={'playlist-song-' + (index)}
+                        index={index}
+                        song={song}
+                    />
+                ))  
+                
+            }
+         </List>; 
+        editToolbar = <EditToolbar />;
+        publishingBar = <PublishingBar/>;     
+    }
+    let cardElement =
+    <Accordion
+        id={idNamePair._id}
+        key={idNamePair._id}
+        sx={{ marginTop: '15px'}}
+        onChange={(event) => {
+            handleLoadList(event, idNamePair._id)
+        }}
+    >
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+        >
+          <Typography>{idNamePair.name}</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+            {songList}{editToolbar}{publishingBar}
+        </AccordionDetails>
+      </Accordion>
 
     if (editActive) {
         cardElement =
