@@ -41,6 +41,11 @@ export default function AppBanner() {
         height: '10%',
         width: '10%',
     };
+    const userIcon = {
+        display: 'block',
+        float: 'right',
+        display: { xs: 'none', md: 'flex' }
+    }
     const menuId = 'primary-search-account-menu';
     const loggedOutMenu = (
         <Menu
@@ -92,7 +97,7 @@ export default function AppBanner() {
         if (loggedIn) 
             return <div>{userInitials}</div>;
         else
-            return <AccountCircle />;
+            return <AccountCircle/>;
     }
 
     return (
@@ -111,7 +116,7 @@ export default function AppBanner() {
                     >
                         <Link style={{ textDecoration: 'none', color: 'white' }} to='/' onClick={handleCloseList}>⌂</Link>
                     </Typography>
-                    <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+                    <Box sx={userIcon}>
                         <IconButton
                             size="large"
                             edge="end"

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { GlobalStoreContext } from '../store'
 import ListCard from './ListCard.js'
 import MUIDeleteModal from './MUIDeleteModal'
@@ -14,6 +14,12 @@ import Typography from '@mui/material/Typography'
 */
 const HomeScreen = () => {
     const { store } = useContext(GlobalStoreContext);
+    const [expanded, setExpanded] = useState(false);
+    const handleChange = (panel) => (event, isExpanded) => {
+        console.log("is something expanded: "+isExpanded);
+        setExpanded(isExpanded ? panel : false);
+        store.setCurrentList(panel);
+      };
 
     useEffect(() => {
         store.loadIdNamePairs();
@@ -32,6 +38,8 @@ const HomeScreen = () => {
                         key={pair._id}
                         idNamePair={pair}
                         selected={false}
+                        expanded = {expanded === pair._id} 
+                        onChange = {handleChange(pair._id)}
                     />
                 ))
             }

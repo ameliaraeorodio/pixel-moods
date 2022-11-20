@@ -15,7 +15,6 @@ const style = {
 
 export default function MUIRemoveSongModal() {
     const { store } = useContext(GlobalStoreContext);
-
     function handleConfirmRemoveSong () {
         store.addRemoveSongTransaction();
     }
@@ -23,9 +22,9 @@ export default function MUIRemoveSongModal() {
     function handleCancelRemoveSong () {
         store.hideModals();
     }
-    
     let modalClass = "modal";
-    if (store.isRemoveSongModalOpen()) {
+    if (store.currentModal === "REMOVE_SONG") {
+        console.log("hell)0???");
         modalClass += " is-visible";
     }
     let songTitle = "";

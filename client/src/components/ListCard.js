@@ -1,10 +1,6 @@
+import React from 'react';
 import { useContext, useState } from 'react'
 import { GlobalStoreContext } from '../store'
-import Box from '@mui/material/Box';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import IconButton from '@mui/material/IconButton';
-import ListItem from '@mui/material/ListItem';
 import TextField from '@mui/material/TextField';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -15,6 +11,9 @@ import SongCard from './SongCard.js'
 import List from '@mui/material/List';
 import EditToolbar from './EditToolbar'
 import PublishingBar from './PublishingBar';
+import MUIEditSongModal from './MUIEditSongModal'
+import MUIRemoveSongModal from './MUIRemoveSongModal'
+import { Box } from '@mui/system';
 
 
 /*
@@ -28,7 +27,7 @@ function ListCard(props) {
     const { store } = useContext(GlobalStoreContext);
     const [editActive, setEditActive] = useState(false);
     const [text, setText] = useState("");
-    const { idNamePair, selected } = props;
+    const { idNamePair, selected, expanded, onChange} = props;
 
     function handleLoadList(event, id) {
         console.log("handleLoadList for " + id);
@@ -43,7 +42,13 @@ function ListCard(props) {
             store.setCurrentList(id);
         }
     }
-
+    let modalJSX = "";
+    if (store.isEditSongModalOpen()) {
+        modalJSX = <MUIEditSongModal />;
+    }
+    else if (store.isRemoveSongModalOpen()) {
+        modalJSX = <MUIRemoveSongModal />;
+    }
     function handleToggleEdit(event) {
         event.stopPropagation();
         toggleEdit();
@@ -68,7 +73,6 @@ function ListCard(props) {
     function handleUpdateText(event) {
         setText(event.target.value);
     }
-
     let selectClass = "unselected-list-card";
     if (selected) {
         selectClass = "selected-list-card";
@@ -77,6 +81,7 @@ function ListCard(props) {
     if (store.isListNameEditActive) {
         cardStatus = true;
     }
+
     let songList = "";
     let editToolbar = "";
     let publishingBar = "";
@@ -102,12 +107,11 @@ function ListCard(props) {
     }
     let cardElement =
     <Accordion
+        expanded = {expanded}
         id={idNamePair._id}
         key={idNamePair._id}
         sx={{ marginTop: '15px'}}
-        onChange={(event) => {
-            handleLoadList(event, idNamePair._id)
-        }}
+        onChange = {onChange}
     >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
@@ -141,7 +145,10 @@ function ListCard(props) {
             />
     }
     return (
-        cardElement
+        <Box>
+            {cardElement}
+            {modalJSX}
+        </Box>
     );
 }
 

@@ -387,6 +387,7 @@ function GlobalStoreContextProvider(props) {
         return store.currentModal === CurrentModal.EDIT_SONG;
     }
     store.isRemoveSongModalOpen = () => {
+        console.log('we are open?: ' + store.currentModal === CurrentModal.REMOVE_SONG);
         return store.currentModal === CurrentModal.REMOVE_SONG;
     }
 
