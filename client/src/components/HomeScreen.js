@@ -25,7 +25,13 @@ const HomeScreen = () => {
     const handleChange = (panel) => (event, isExpanded) => {
         console.log("is something expanded: "+isExpanded);
         setExpanded(isExpanded ? panel : false);
-        store.setCurrentList(panel);
+        if(!isExpanded){
+            store.closeCurrentList();
+        }
+        else{
+            store.setCurrentList(panel);
+        }
+        
       };
     
     const boxDisplay = {
