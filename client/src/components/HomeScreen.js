@@ -33,11 +33,6 @@ const HomeScreen = () => {
         }
         
       };
-    
-    const boxDisplay = {
-        display: 'grid', 
-        gridTemplateColumns: 'repeat(3, 1fr)'
-    }
     useEffect(() => {
         store.loadIdNamePairs();
     }, []);

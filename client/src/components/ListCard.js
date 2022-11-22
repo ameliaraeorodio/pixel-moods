@@ -50,8 +50,11 @@ function ListCard(props) {
         modalJSX = <MUIRemoveSongModal />;
     }
     function handleToggleEdit(event) {
-        event.stopPropagation();
-        toggleEdit();
+        if(event.detail === 2){
+            event.stopPropagation();
+            console.log('HANDLE EDIT');
+            toggleEdit();
+        }
     }
 
     function toggleEdit() {
@@ -105,6 +108,18 @@ function ListCard(props) {
         editToolbar = <EditToolbar />;
         publishingBar = <PublishingBar/>;     
     }
+    const accordionProps = {
+        sx: {
+          pointerEvents: "none"
+        },
+        expandIcon: (
+          <ExpandMoreIcon
+            sx={{
+              pointerEvents: "auto"
+            }}
+          />
+        )
+      };
     let cardElement =
     <Accordion
         expanded = {expanded}
@@ -112,11 +127,10 @@ function ListCard(props) {
         key={idNamePair._id}
         sx={{ marginTop: '15px'}}
         onChange = {onChange}
+        onClick = {handleToggleEdit}
     >
         <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
+          {...accordionProps}
         >
           <Typography>{idNamePair.name}</Typography>
         </AccordionSummary>
@@ -139,8 +153,8 @@ function ListCard(props) {
                 onKeyPress={handleKeyPress}
                 onChange={handleUpdateText}
                 defaultValue={idNamePair.name}
-                inputProps={{style: {fontSize: 48}}}
-                InputLabelProps={{style: {fontSize: 24}}}
+                inputProps={{style: {fontSize: 18}}}
+                InputLabelProps={{style: {fontSize: 18}}}
                 autoFocus
             />
     }
