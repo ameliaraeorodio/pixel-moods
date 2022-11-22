@@ -5,13 +5,12 @@ import { Typography } from '@mui/material';
 function PublishingBar() {
     const { store } = useContext(GlobalStoreContext);
 
-    async function handleDeleteList(event, id) {
-        event.stopPropagation();
-        let _id = event.target.id;
-        console.log("before substring: "+event.target)
-        _id = ("" + _id).substring("delete-list-".length);
-        console.log("index of list to be deleted: "+_id)
+    async function handleDeleteList() {
+        let id = store.currentList._id;
         store.markListForDeletion(id);
+    }
+    async function handleDuplicate(){
+        store.duplicateList();
     }
     const button = {
         color: '#FFC1CC', 
@@ -47,7 +46,7 @@ function PublishingBar() {
             <Button 
                 sx = {button}
                 id='duplicate-button'
-                //onClick={handleDuplicate}
+                onClick={handleDuplicate}
                 variant="contained">
                 <Typography>Duplicate</Typography>
             </Button>
