@@ -160,7 +160,14 @@ function AuthContextProvider(props) {
         }
         return initials;
     }
-
+    auth.getUserName = function(){
+        let username = "";
+        if(auth.user){
+            console.log('username: '+auth.user.userName);
+            username = auth.user.userName;
+        }
+        return username;
+    }
     return (
         <AuthContext.Provider value={{
             auth

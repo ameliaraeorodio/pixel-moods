@@ -1,4 +1,5 @@
 import AppBanner from './AppBanner'
+import UserBar from './UserBar'
 import EditToolbar from './EditToolbar'
 import PublishingBar from './PublishingBar'
 import HomeScreen from './HomeScreen'
@@ -20,7 +21,8 @@ import WorkspaceScreen from './WorkspaceScreen'
     @author McKilla Gorilla
 */
 export { 
-    AppBanner,  
+    AppBanner,
+    UserBar,  
     EditToolbar,
     PublishingBar, 
     HomeScreen,

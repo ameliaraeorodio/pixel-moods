@@ -14,6 +14,7 @@ import PublishingBar from './PublishingBar';
 import MUIEditSongModal from './MUIEditSongModal'
 import MUIRemoveSongModal from './MUIRemoveSongModal'
 import { Box } from '@mui/system';
+import AuthContext from '../auth';
 
 
 /*
@@ -25,6 +26,7 @@ import { Box } from '@mui/system';
 */
 function ListCard(props) {
     const { store } = useContext(GlobalStoreContext);
+    const { auth } = useContext(AuthContext);
     const [editActive, setEditActive] = useState(false);
     const [text, setText] = useState("");
     const { idNamePair, selected, expanded, onChange} = props;
@@ -120,19 +122,28 @@ function ListCard(props) {
           />
         )
       };
+    let username = "";
+    if(auth.user){
+        username = auth.getUserName()
+    }
+    //background color is what would cahnge when u check published/unpublished
+    let color = ""
+    if(store.published)
+        color = "grey"
     let cardElement =
     <Accordion
         expanded = {expanded}
         id={idNamePair._id}
         key={idNamePair._id}
-        sx={{ marginTop: '15px'}}
+        sx={{ marginTop: '15px',backgroundColor:{color}}}
         onChange = {onChange}
         onClick = {handleToggleEdit}
     >
         <AccordionSummary
           {...accordionProps}
         >
-          <Typography>{idNamePair.name}</Typography>
+          <Typography display="block">{idNamePair.name}</Typography>
+         
         </AccordionSummary>
         <AccordionDetails>
             {songList}{editToolbar}{publishingBar}

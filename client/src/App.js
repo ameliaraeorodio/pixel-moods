@@ -11,6 +11,7 @@ import {
     Statusbar,
     WorkspaceScreen
 } from './components'
+import UserBar from './components/UserBar';
 /*
     This is our application's top-level component.
     

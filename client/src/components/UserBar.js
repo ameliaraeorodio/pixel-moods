@@ -13,8 +13,14 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+import Groups2OutlinedIcon from '@mui/icons-material/Groups2Outlined';
+import Person2OutlinedIcon from '@mui/icons-material/Person2Outlined';
+import { TextField } from '@mui/material';
+import SortOutlinedIcon from '@mui/icons-material/SortOutlined';
 
-export default function AppBanner() {
+
+export default function UserBar() {
     const { auth } = useContext(AuthContext);
     const { store } = useContext(GlobalStoreContext);
     const [anchorEl, setAnchorEl] = useState(null);
@@ -98,24 +104,13 @@ export default function AppBanner() {
         else
             return <AccountCircle/>;
     }
-
+    
     return (
         <Box sx={{ flexGrow: 1}}>
-            <AppBar   style={{ background: '#FFC1CC' }} position="static" >
+
+            <AppBar elevation = {0} style={{ background: 'transparent' }} position="static" >
                 <Toolbar>
-                <Box component = "img"
-                src = "playlister logo.png"
-                sx = {logoStyle}
-            ></Box>
-                    <Typography                        
-                        variant="h4"
-                        noWrap
-                        component="div"
-                        sx={{ display: { xs: 'none', sm: 'block' } }}                        
-                    >
-                        <Link style={{ textDecoration: 'none', color: 'white' }} to='/' onClick={handleCloseList}>⌂</Link>
-                    </Typography>
-                    <Box sx={userIcon}>
+                    <Box>
                         <IconButton
                             size="large"
                             edge="end"
@@ -123,9 +118,48 @@ export default function AppBanner() {
                             aria-controls={menuId}
                             aria-haspopup="true"
                             onClick={handleProfileMenuOpen}
-                            color="inherit"
                         >
-                            { getAccountMenu(auth.loggedIn) }
+                            <HomeOutlinedIcon sx = {{color: "#990014", fontSize: '120%'}}></HomeOutlinedIcon>
+                        </IconButton>
+                    </Box>
+                    <Box>
+                        <IconButton
+                            size="large"
+                            edge="end"
+                            aria-label="account of current user"
+                            aria-controls={menuId}
+                            aria-haspopup="true"
+                            onClick={handleProfileMenuOpen}
+                        >
+                            <Groups2OutlinedIcon sx = {{color: "#990014", fontSize: '120%'}}></Groups2OutlinedIcon>
+                        </IconButton>
+                    </Box>
+                    <Box>
+                        <IconButton
+                            size="large"
+                            edge="end"
+                            aria-label="account of current user"
+                            aria-controls={menuId}
+                            aria-haspopup="true"
+                            onClick={handleProfileMenuOpen}
+                        >
+                            <Person2OutlinedIcon sx = {{color: "#990014", fontSize: '120%'}}></Person2OutlinedIcon>
+                        </IconButton>
+                    </Box>
+                    <Box sx = {{width: "50%", margin: "0 auto"}}>
+                        <TextField sx={{width: 600}}size = "small" id="outlined-basic fullWidth" label="Search" variant="outlined"/>
+                    </Box>
+                    <Typography sx = {{color: "#990014", fontSize: '120%'}}>SORT</Typography>
+                    <Box>
+                        <IconButton
+                            size="large"
+                            edge="end"
+                            aria-label="account of current user"
+                            aria-controls={menuId}
+                            aria-haspopup="true"
+                            onClick={handleProfileMenuOpen}
+                        >
+                            <SortOutlinedIcon sx = {{color: "#990014", fontSize: '120%'}}></SortOutlinedIcon>
                         </IconButton>
                     </Box>
                 </Toolbar>

@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react'
 import { GlobalStoreContext } from '../store'
 import ListCard from './ListCard.js'
 import MUIDeleteModal from './MUIDeleteModal'
-
+import UserBar from './UserBar'
 import AddIcon from '@mui/icons-material/Add';
 import Fab from '@mui/material/Fab'
 import List from '@mui/material/List';
@@ -72,14 +72,17 @@ const HomeScreen = () => {
     </Box>
     return (
         <div id = 'home'>
-            <div id="playlist-selector">
+            <div id = 'userbar'>
+                <UserBar/>
+            </div>
+            
                 <div id="list-selector-list">
                     {
                         listCard
                     }
                     <MUIDeleteModal />
                 </div>
-            </div>
+    
             <div id = 'comment-play-tabs'>
                 {tabs}
             </div>

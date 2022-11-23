@@ -1,10 +1,6 @@
 import { useContext } from 'react'
 import { GlobalStoreContext } from '../store'
 import Button from '@mui/material/Button';
-import AddIcon from '@mui/icons-material/Add';
-import RedoIcon from '@mui/icons-material/Redo';
-import UndoIcon from '@mui/icons-material/Undo';
-import CloseIcon from '@mui/icons-material/HighlightOff';
 import { Typography } from '@mui/material';
 
 /*

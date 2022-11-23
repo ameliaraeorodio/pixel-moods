@@ -63,7 +63,7 @@ body {
   border-radius: 15px;
   padding-top: 5%;
   padding-bottom: 5%;
-  height:70%;
+  height:90%;
   font-weight: bold;
   text-align: center;
   vertical-align: center;
@@ -177,18 +177,22 @@ body {
 #list-selector-list {
   max-height: 83%;
   position: absolute;
+  grid-area: 'lists';
   left: 0%;
-  top: 10%;
+  top: 20%;
   width: 50%;
-  height: 90%;
+  height: 80%;
   display: flex;
   flex-direction: column;
   overflow: scroll;
 }
-#home{
-  display: grid;
-  grid-template-columns: 50% 50%;
+#comment-play-tabs{
+  margin-left: 52%;
 }
+#userbar{
+  margin-top: 0%;
+}
+
 .list-card,
 .selected-list-card,
 .unselected-list-card {
