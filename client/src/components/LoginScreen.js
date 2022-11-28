@@ -1,8 +1,7 @@
 import { useContext } from 'react';
 import AuthContext from '../auth'
-
+import MUIErrorModal from './MUIErrorModal'
 import Copyright from './Copyright'
-import MUIErrorModal from './MUIErrorModal';
 
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
@@ -31,9 +30,11 @@ export default function LoginScreen() {
     };
 
     let modalJSX = "";
-    if (auth.errorMessage !== "") {
+    console.log(auth);
+    if (auth.errorMessage !== null){
         modalJSX = <MUIErrorModal />;
     }
+    console.log(modalJSX);
 
     return (
         <Grid container component="main" sx={{ height: '100vh' }}>
@@ -44,7 +45,7 @@ export default function LoginScreen() {
                 sm={4}
                 md={7}
                 sx={{
-                    backgroundImage: 'url(https://source.unsplash.com/random)',
+                    backgroundImage: 'url(https://static.displate.com/857x1200/displate/2021-09-09/acaf2be9f58d1c05de9e4e47c580ee00_0da6a981d11a923cf24cf3f465fa81cc.jpg)',
                     backgroundRepeat: 'no-repeat',
                     backgroundColor: (t) =>
                         t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
@@ -63,7 +64,7 @@ export default function LoginScreen() {
                     }}
                 >
                     <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                        <LockOutlinedIcon />
+                        <LockOutlinedIcon/>
                     </Avatar>
                     <Typography component="h1" variant="h5">
                         Sign in
@@ -99,16 +100,16 @@ export default function LoginScreen() {
                         </Button>
                         <Grid container>
                             <Grid item>
-                                <Link href="/register" variant="body2">
-                                    {"Don't have an account? Sign Up"}
+                                <Link href="/register/" variant="body2">
+                                    Don't have an account? Sign Up
                                 </Link>
                             </Grid>
                         </Grid>
                         <Copyright sx={{ mt: 5 }} />
                     </Box>
-                    {modalJSX}
                 </Box>
             </Grid>
+            { modalJSX }
         </Grid>
     );
 }

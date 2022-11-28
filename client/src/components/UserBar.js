@@ -33,16 +33,6 @@ export default function UserBar() {
     const handleMenuClose = () => {
         setAnchorEl(null);
     };
-
-    const handleLogout = () => {
-        handleMenuClose();
-        auth.logoutUser();
-        store.closeCurrentList();
-    }
-
-    const handleCloseList = () => {
-        store.closeCurrentList();
-    }
     const logoStyle = {
         height: '10%',
         width: '10%',
@@ -51,15 +41,15 @@ export default function UserBar() {
         width: '100%', 
         textAlign: 'right',
     }
-    const menuId = 'primary-search-account-menu';
-    const loggedOutMenu = (
+    const sortBy = 'primary-search-account-menu';
+    const sortMenu = (
         <Menu
             anchorEl={anchorEl}
             anchorOrigin={{
                 vertical: 'top',
                 horizontal: 'right',
             }}
-            id={menuId}
+            id={sortBy}
             keepMounted
             transformOrigin={{
                 vertical: 'top',
@@ -68,42 +58,14 @@ export default function UserBar() {
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
-            <MenuItem onClick={handleMenuClose}><Link to='/login/'>Login</Link></MenuItem>
-            <MenuItem onClick={handleMenuClose}><Link to='/register/'>Create New Account</Link></MenuItem>
+            <MenuItem onClick={handleMenuClose}>Name (A-Z)</MenuItem>
+            <MenuItem onClick={handleMenuClose}>Publish Date (Newest)</MenuItem>
+            <MenuItem onClick={handleMenuClose}>Listens (High - Low)</MenuItem>
+            <MenuItem onClick={handleMenuClose}>Likes (High - Low)</MenuItem>
+            <MenuItem onClick={handleMenuClose}>Dislikes (High - Low)</MenuItem>
         </Menu>
     );
-    const loggedInMenu = 
-        <Menu
-            anchorEl={anchorEl}
-            anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-            }}
-            id={menuId}
-            keepMounted
-            transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-            }}
-            open={isMenuOpen}
-            onClose={handleMenuClose}
-        >
-            <MenuItem onClick={handleLogout}>Logout</MenuItem>
-        </Menu>        
-
-    let menu = loggedOutMenu;
-    if (auth.loggedIn) {
-        menu = loggedInMenu;
-    }
-    
-    function getAccountMenu(loggedIn) {
-        let userInitials = auth.getUserInitials();
-        console.log("userInitials: " + userInitials);
-        if (loggedIn) 
-            return <div>{userInitials}</div>;
-        else
-            return <AccountCircle/>;
-    }
+    let menu = sortMenu;
     
     return (
         <Box sx={{ flexGrow: 1}}>
@@ -115,9 +77,9 @@ export default function UserBar() {
                             size="large"
                             edge="end"
                             aria-label="account of current user"
-                            aria-controls={menuId}
+                            aria-controls={sortBy}
                             aria-haspopup="true"
-                            onClick={handleProfileMenuOpen}
+                        
                         >
                             <HomeOutlinedIcon sx = {{color: "#990014", fontSize: '120%'}}></HomeOutlinedIcon>
                         </IconButton>
@@ -127,9 +89,9 @@ export default function UserBar() {
                             size="large"
                             edge="end"
                             aria-label="account of current user"
-                            aria-controls={menuId}
+                            aria-controls={sortBy}
                             aria-haspopup="true"
-                            onClick={handleProfileMenuOpen}
+                            
                         >
                             <Groups2OutlinedIcon sx = {{color: "#990014", fontSize: '120%'}}></Groups2OutlinedIcon>
                         </IconButton>
@@ -139,9 +101,9 @@ export default function UserBar() {
                             size="large"
                             edge="end"
                             aria-label="account of current user"
-                            aria-controls={menuId}
+                            aria-controls={sortBy}
                             aria-haspopup="true"
-                            onClick={handleProfileMenuOpen}
+                            
                         >
                             <Person2OutlinedIcon sx = {{color: "#990014", fontSize: '120%'}}></Person2OutlinedIcon>
                         </IconButton>
@@ -155,7 +117,7 @@ export default function UserBar() {
                             size="large"
                             edge="end"
                             aria-label="account of current user"
-                            aria-controls={menuId}
+                            aria-controls={sortBy}
                             aria-haspopup="true"
                             onClick={handleProfileMenuOpen}
                         >

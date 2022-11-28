@@ -29,7 +29,7 @@ function ListCard(props) {
     const { auth } = useContext(AuthContext);
     const [editActive, setEditActive] = useState(false);
     const [text, setText] = useState("");
-    const { idNamePair, selected, expanded, onChange} = props;
+    const { idNamePair, selected, expanded, onChange,sx} = props;
 
     function handleLoadList(event, id) {
         console.log("handleLoadList for " + id);
@@ -122,28 +122,30 @@ function ListCard(props) {
           />
         )
       };
+    //getting the username will have to change since we are accessing multiple
+    //people but this will have to do for now
     let username = "";
     if(auth.user){
         username = auth.getUserName()
     }
     //background color is what would cahnge when u check published/unpublished
-    let color = ""
-    if(store.published)
-        color = "grey"
+
     let cardElement =
     <Accordion
         expanded = {expanded}
         id={idNamePair._id}
         key={idNamePair._id}
-        sx={{ marginTop: '15px',backgroundColor:{color}}}
+        style={sx}
         onChange = {onChange}
         onClick = {handleToggleEdit}
     >
         <AccordionSummary
           {...accordionProps}
         >
-          <Typography display="block">{idNamePair.name}</Typography>
-         
+            <Box>
+                <Typography sx = {{fontSize: '150%'}}>{idNamePair.name}</Typography>
+                <Typography>By: {username}</Typography>
+            </Box>
         </AccordionSummary>
         <AccordionDetails>
             {songList}{editToolbar}{publishingBar}

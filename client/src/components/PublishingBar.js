@@ -12,6 +12,9 @@ function PublishingBar() {
     async function handleDuplicate(){
         store.duplicateList();
     }
+    async function handlePublish(){
+        store.publishList(store.currentList._id);
+    }
     const button = {
         color: '#FFC1CC', 
         backgroundColor: 'white', 
@@ -32,7 +35,7 @@ function PublishingBar() {
             <Button 
                 sx = {button}
                 id='publish-button'
-                //onClick={handlePublish}
+                onClick={handlePublish}
                 variant="contained">
                 <Typography>Publish</Typography>
             </Button>

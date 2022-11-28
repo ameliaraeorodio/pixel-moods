@@ -20,6 +20,7 @@ import Tabs from '@mui/material/Tabs';
 const HomeScreen = () => {
     const { store } = useContext(GlobalStoreContext);
     const [expanded, setExpanded] = useState(false);
+
     const [value, setValue] = React.useState('Player');
 
     const handleChange = (panel) => (event, isExpanded) => {
@@ -37,19 +38,33 @@ const HomeScreen = () => {
         store.loadIdNamePairs();
     }, []);
     let listCard = "";
+
     if (store) {
         listCard = 
-            <List sx={{ width: '90%', left: '5%', bgcolor: 'background.paper', margin: '10px' }}>
+            <List sx={{ width: '90%', left: '5%', margin: '10px'}}>
             {
-                store.idNamePairs.map((pair) => (
-                    <ListCard
+                store.idNamePairs.map(pair =>{
+                    if(pair.published){
+                        return <ListCard
+                        sx = {{ marginTop: '10px',backgroundColor:'#4E9152'}}
                         key={pair._id}
                         idNamePair={pair}
                         selected={false}
                         expanded = {expanded === pair._id} 
                         onChange = {handleChange(pair._id)}
+                        
                     />
-                ))
+                    }
+                    return <ListCard
+                    sx = {{ marginTop: '20px',backgroundColor:'white'}}
+                    key={pair._id}
+                    idNamePair={pair}
+                    selected={false}
+                    expanded = {expanded === pair._id} 
+                    onChange = {handleChange(pair._id)}
+                    
+                />
+                })
             }
             </List>;
     }
