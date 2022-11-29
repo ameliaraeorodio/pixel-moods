@@ -318,6 +318,7 @@ function GlobalStoreContextProvider(props) {
             // IF IT'S A VALID LIST THEN LET'S START EDITING IT
             //history.push("/playlist/" + newList._id);
             store.loadIdNamePairs();
+            console.log("TIME CREATED"+ newList.createdAt);
         }
         else {
             console.log("API FAILED TO CREATE A NEW LIST");

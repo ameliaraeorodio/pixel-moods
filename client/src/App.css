@@ -125,9 +125,9 @@ body {
 #playlister-statusbar {
   position: fixed;
   left: 10%;
-  top: 85%;
+  top: 90%;
   width: 80%;
-  height: 10%;
+  height: 8%;
   background-color:#FFC1CC;
   color:whitesmoke;
   display: flex;
@@ -229,7 +229,9 @@ body {
   float: right;
   transform: scale(2);
 }
-
+#publish-button-hidden{
+  visibility: hidden;
+}
 #workspace-home,
 #workspace-edit {
   position: absolute;

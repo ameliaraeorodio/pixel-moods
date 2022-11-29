@@ -38,31 +38,34 @@ const HomeScreen = () => {
         store.loadIdNamePairs();
     }, []);
     let listCard = "";
-
+    //add a timestamp variable here
+    let timeCalc = "";
     if (store) {
         listCard = 
-            <List sx={{ width: '90%', left: '5%', margin: '10px'}}>
+            <List sx={{ width: '90%', left: '5%', margin: '5px'}}>
             {
                 store.idNamePairs.map(pair =>{
                     if(pair.published){
+                        timeCalc = new Date(pair.timestamps)
                         return <ListCard
-                        sx = {{ marginTop: '10px',backgroundColor:'#4E9152'}}
+                        sx = {{ marginTop: '7px',backgroundColor:' #9CAF88'}}
                         key={pair._id}
                         idNamePair={pair}
                         selected={false}
                         expanded = {expanded === pair._id} 
                         onChange = {handleChange(pair._id)}
-                        
+                        timestamp = {timeCalc.toDateString().substring(4)}
+                        isPublished = {true}
                     />
                     }
                     return <ListCard
-                    sx = {{ marginTop: '20px',backgroundColor:'white'}}
+                    sx = {{ marginTop: '7px',backgroundColor:'white'}}
                     key={pair._id}
                     idNamePair={pair}
                     selected={false}
                     expanded = {expanded === pair._id} 
                     onChange = {handleChange(pair._id)}
-                    
+                    isPublished = {false}
                 />
                 })
             }

@@ -11,10 +11,13 @@ function PublishingBar() {
     }
     async function handleDuplicate(){
         store.duplicateList();
+        
     }
     async function handlePublish(){
         store.publishList(store.currentList._id);
+
     }
+    let pubButton = {visibility: 'hidden'};
     const button = {
         color: '#FFC1CC', 
         backgroundColor: 'white', 
@@ -28,13 +31,30 @@ function PublishingBar() {
             borderColor: 'white',
             borderStyle: 'solid',
             borderWidth: '1px',
+        },
+    }
+    if(!store.currentList.published){
+        pubButton = {
+            color: '#FFC1CC', 
+            backgroundColor: 'white', 
+            borderColor: '#FFC1CC',
+            borderStyle: 'solid',
+            borderWidth: '1px',
+            margin: '4px',
+            '&:hover':{
+                color: 'white', 
+                backgroundColor: '#FFC1CC', 
+                borderColor: 'white',
+                borderStyle: 'solid',
+                borderWidth: '1px',
+            },
         }
     }
     return (
         <div id="publishing-bar">
             <Button 
-                sx = {button}
-                id='publish-button'
+                sx = {pubButton}
+                id={'publish-button'}
                 onClick={handlePublish}
                 variant="contained">
                 <Typography>Publish</Typography>

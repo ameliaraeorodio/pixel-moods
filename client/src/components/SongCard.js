@@ -41,6 +41,7 @@ function SongCard(props) {
     function handleClick(event) {
         // DOUBLE CLICK IS FOR SONG EDITING
         if (event.detail === 2) {
+            event.stopPropagation();
             store.showEditSongModal(index, song);
         }
     }

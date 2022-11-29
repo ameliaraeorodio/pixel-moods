@@ -15,7 +15,13 @@ import MUIEditSongModal from './MUIEditSongModal'
 import MUIRemoveSongModal from './MUIRemoveSongModal'
 import { Box } from '@mui/system';
 import AuthContext from '../auth';
+import { Grid } from '@mui/material';
+import Paper from '@mui/material/Paper';
+import { styled } from '@mui/material/styles';
 
+import IconButton from '@mui/material/IconButton';
+import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
+import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined';
 
 /*
     This is a card in our list of playlists. It lets select
@@ -29,7 +35,7 @@ function ListCard(props) {
     const { auth } = useContext(AuthContext);
     const [editActive, setEditActive] = useState(false);
     const [text, setText] = useState("");
-    const { idNamePair, selected, expanded, onChange,sx} = props;
+    const { idNamePair, selected, expanded, onChange,sx, isPublished, timestamp} = props;
 
     function handleLoadList(event, id) {
         console.log("handleLoadList for " + id);
@@ -90,10 +96,11 @@ function ListCard(props) {
     let songList = "";
     let editToolbar = "";
     let publishingBar = "";
+    
     if (store.currentList) {
         songList = <List 
             id="playlist-cards" 
-            sx={{ width: '100%', bgcolor: 'background.paper'}}
+            sx={{sx}}
         >
             {
                 store.currentList.songs.map((song, index) => (
@@ -107,12 +114,15 @@ function ListCard(props) {
                 
             }
          </List>; 
-        editToolbar = <EditToolbar />;
-        publishingBar = <PublishingBar/>;     
+        if(!store.currentList.published){
+            editToolbar = <EditToolbar />;
+        }     
+        publishingBar = <PublishingBar/>;
     }
     const accordionProps = {
         sx: {
           pointerEvents: "none"
+          
         },
         expandIcon: (
           <ExpandMoreIcon
@@ -120,7 +130,7 @@ function ListCard(props) {
               pointerEvents: "auto"
             }}
           />
-        )
+        ),
       };
     //getting the username will have to change since we are accessing multiple
     //people but this will have to do for now
@@ -129,9 +139,59 @@ function ListCard(props) {
         username = auth.getUserName()
     }
     //background color is what would cahnge when u check published/unpublished
-
-    let cardElement =
-    <Accordion
+   
+    let cardElement ="";
+    if(idNamePair.published){
+        cardElement =
+        <Accordion
+        expanded = {expanded}
+        id={idNamePair._id}
+        key={idNamePair._id}
+        style={sx}
+        onChange = {onChange}
+    >
+        <AccordionSummary
+          {...accordionProps}
+        >
+            <Box>
+                <Typography sx = {{fontSize: '150%'}}>{idNamePair.name}</Typography>
+                <Typography>By: {username}</Typography>
+                <Typography sx = {{fontSize: '70%'}}>Published: {timestamp}</Typography>
+                
+            </Box>
+            <Box sx={{ flexGrow: 1, paddingLeft: '40%'}}>
+                <Grid container spacing={2}>
+                    <Grid item xs={2}>
+                    <ThumbUpOutlinedIcon sx = {{fontSize:'170%'}}></ThumbUpOutlinedIcon>
+                    </Grid>
+                    <Grid item xs = {2}></Grid>
+                    <Grid item xs={2}>
+                    <ThumbDownAltOutlinedIcon sx = {{fontSize:'170%'}}></ThumbDownAltOutlinedIcon>
+                    </Grid>
+                    <Grid item xs = {2}></Grid>
+                    <Grid item xs = {2}></Grid>
+                    <Grid item xs = {2}></Grid>
+                    <Grid item xs={2}>
+                    <Typography>000</Typography>
+                    </Grid>
+                    <Grid item xs = {2}></Grid>
+                    <Grid item xs={2}>
+                    <Typography>000</Typography>
+                    </Grid>
+                    <Grid item xs = {8}>
+                        <Typography sx ={{fontSize:'70%'}}>listens: 123 </Typography>
+                    </Grid>
+                </Grid>
+            </Box>
+        </AccordionSummary>
+        <AccordionDetails>
+            {songList}{editToolbar}{publishingBar}
+        </AccordionDetails>
+      </Accordion>
+    }
+    else{
+        cardElement = 
+        <Accordion
         expanded = {expanded}
         id={idNamePair._id}
         key={idNamePair._id}
@@ -151,6 +211,7 @@ function ListCard(props) {
             {songList}{editToolbar}{publishingBar}
         </AccordionDetails>
       </Accordion>
+    }
 
     if (editActive) {
         cardElement =
