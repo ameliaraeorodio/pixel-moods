@@ -1,6 +1,7 @@
 import AppBanner from './AppBanner'
 import UserBar from './UserBar'
 import EditToolbar from './EditToolbar'
+import TestButtons from './TestButtons'
 import PublishingBar from './PublishingBar'
 import HomeScreen from './HomeScreen'
 import HomeWrapper from './HomeWrapper'
@@ -24,6 +25,7 @@ export {
     AppBanner,
     UserBar,  
     EditToolbar,
+    TestButtons,
     PublishingBar, 
     HomeScreen,
     HomeWrapper,

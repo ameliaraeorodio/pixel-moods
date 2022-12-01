@@ -11,6 +11,7 @@ import SongCard from './SongCard.js'
 import List from '@mui/material/List';
 import EditToolbar from './EditToolbar'
 import PublishingBar from './PublishingBar';
+import TestButtons from './TestButtons';
 import MUIEditSongModal from './MUIEditSongModal'
 import MUIRemoveSongModal from './MUIRemoveSongModal'
 import { Box } from '@mui/system';
@@ -35,7 +36,7 @@ function ListCard(props) {
     const { auth } = useContext(AuthContext);
     const [editActive, setEditActive] = useState(false);
     const [text, setText] = useState("");
-    const { idNamePair, selected, expanded, onChange,sx, isPublished, timestamp} = props;
+    const { idNamePair, selected, expanded, onChange,sx, timestamp, likes,dislikes, isLike, isDislike} = props;
 
     function handleLoadList(event, id) {
         console.log("handleLoadList for " + id);
@@ -103,14 +104,26 @@ function ListCard(props) {
             sx={{sx}}
         >
             {
-                store.currentList.songs.map((song, index) => (
-                    <SongCard
+                store.currentList.songs.map((song, index) => {
+                    if(store.currentList.published){
+                        return <SongCard
                         id={'playlist-song-' + (index)}
                         key={'playlist-song-' + (index)}
                         index={index}
                         song={song}
+                        published = {true}
                     />
-                ))  
+                    }
+                    return <SongCard
+                    id={'playlist-song-' + (index)}
+                    key={'playlist-song-' + (index)}
+                    index={index}
+                    song={song}
+                    published = {false}
+                />
+                }
+                    
+                )  
                 
             }
          </List>; 
@@ -124,6 +137,7 @@ function ListCard(props) {
           pointerEvents: "none"
           
         },
+ 
         expandIcon: (
           <ExpandMoreIcon
             sx={{
@@ -138,6 +152,7 @@ function ListCard(props) {
     if(auth.user){
         username = auth.getUserName()
     }
+    
     //background color is what would cahnge when u check published/unpublished
    
     let cardElement ="";
@@ -160,28 +175,11 @@ function ListCard(props) {
                 
             </Box>
             <Box sx={{ flexGrow: 1, paddingLeft: '40%'}}>
-                <Grid container spacing={2}>
-                    <Grid item xs={2}>
-                    <ThumbUpOutlinedIcon sx = {{fontSize:'170%'}}></ThumbUpOutlinedIcon>
-                    </Grid>
-                    <Grid item xs = {2}></Grid>
-                    <Grid item xs={2}>
-                    <ThumbDownAltOutlinedIcon sx = {{fontSize:'170%'}}></ThumbDownAltOutlinedIcon>
-                    </Grid>
-                    <Grid item xs = {2}></Grid>
-                    <Grid item xs = {2}></Grid>
-                    <Grid item xs = {2}></Grid>
-                    <Grid item xs={2}>
-                    <Typography>000</Typography>
-                    </Grid>
-                    <Grid item xs = {2}></Grid>
-                    <Grid item xs={2}>
-                    <Typography>000</Typography>
-                    </Grid>
-                    <Grid item xs = {8}>
-                        <Typography sx ={{fontSize:'70%'}}>listens: 123 </Typography>
-                    </Grid>
-                </Grid>
+            <TestButtons
+                likes = {likes}
+                dislikes = {dislikes}
+                id={idNamePair._id}
+            ></TestButtons>
             </Box>
         </AccordionSummary>
         <AccordionDetails>

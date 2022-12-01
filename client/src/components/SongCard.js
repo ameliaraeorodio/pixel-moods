@@ -4,7 +4,7 @@ import { GlobalStoreContext } from '../store'
 function SongCard(props) {
     const { store } = useContext(GlobalStoreContext);
     const [ draggedTo, setDraggedTo ] = useState(0);
-    const { song, index } = props;
+    const { song, index, published } = props;
 
     function handleDragStart(event) {
         event.dataTransfer.setData("song", index);
@@ -42,7 +42,9 @@ function SongCard(props) {
         // DOUBLE CLICK IS FOR SONG EDITING
         if (event.detail === 2) {
             event.stopPropagation();
-            store.showEditSongModal(index, song);
+            if(!published){
+                store.showEditSongModal(index, song);
+            }
         }
     }
 

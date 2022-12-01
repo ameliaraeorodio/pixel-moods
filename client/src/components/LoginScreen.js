@@ -45,7 +45,7 @@ export default function LoginScreen() {
                 sm={4}
                 md={7}
                 sx={{
-                    backgroundImage: 'url(https://static.displate.com/857x1200/displate/2021-09-09/acaf2be9f58d1c05de9e4e47c580ee00_0da6a981d11a923cf24cf3f465fa81cc.jpg)',
+                    backgroundImage: 'url(https://i.pinimg.com/originals/91/d7/8b/91d78b36d376e009470ed5c219c79152.jpg)',
                     backgroundRepeat: 'no-repeat',
                     backgroundColor: (t) =>
                         t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],

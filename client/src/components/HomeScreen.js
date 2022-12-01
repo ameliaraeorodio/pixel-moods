@@ -56,6 +56,10 @@ const HomeScreen = () => {
                         onChange = {handleChange(pair._id)}
                         timestamp = {timeCalc.toDateString().substring(4)}
                         isPublished = {true}
+                        likes = {pair.likes}
+                        isLike = {false}
+                        isDislike = {false}
+                        dislikes = {pair.dislikes}
                     />
                     }
                     return <ListCard

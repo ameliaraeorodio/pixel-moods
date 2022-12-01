@@ -133,7 +133,9 @@ getPlaylistPairs = async (req, res) => {
                             name: list.name,
                             userName: list.userName,
                             published: list.published,
-                            timestamps: list.updatedAt
+                            timestamps: list.updatedAt,
+                            likes: list.likes,
+                            dislikes: list.dislikes
                         };
                         pairs.push(pair);
                     }
@@ -191,6 +193,8 @@ updatePlaylist = async (req, res) => {
                     list.songs = body.playlist.songs;
                     list.userName = body.playlist.userName;
                     list.published = body.playlist.published;
+                    list.likes = body.playlist.likes;
+                    list.dislikes = body.playlist.dislikes;
                     list
                         .save()
                         .then(() => {
@@ -210,6 +214,24 @@ updatePlaylist = async (req, res) => {
                         })
                 }
                 else {
+                    list.likes = body.playlist.likes;
+                    list
+                        .save()
+                        .then(() => {
+                            console.log("SUCCESS!!!");
+                            return res.status(200).json({
+                                success: true,
+                                id: list._id,
+                                message: 'Playlist updated!',
+                            })
+                        })
+                        .catch(error => {
+                            console.log("FAILURE: " + JSON.stringify(error));
+                            return res.status(404).json({
+                                error,
+                                message: 'Playlist not updated!',
+                            })
+                        })
                     console.log("incorrect user!");
                     return res.status(400).json({ success: false, description: "authentication error" });
                 }

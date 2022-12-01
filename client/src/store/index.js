@@ -305,7 +305,7 @@ function GlobalStoreContextProvider(props) {
     // THIS FUNCTION CREATES A NEW LIST
     store.createNewList = async function () {
         let newListName = "Untitled" + store.newListCounter;
-        const response = await api.createPlaylist(newListName, [], auth.user.email, auth.user.userName, false);
+        const response = await api.createPlaylist(newListName, [], auth.user.email, auth.user.userName, false,[],[]);
         if (response.status === 201) {
             tps.clearAllTransactions();
             let newList = response.data.playlist;
@@ -326,7 +326,7 @@ function GlobalStoreContextProvider(props) {
     }
     store.duplicateList = async function (){
         let newListName = "COPY: " + store.currentList.name;
-        const response = await api.createPlaylist(newListName, store.currentList.songs, auth.user.email, auth.user.userName, false);
+        const response = await api.createPlaylist(newListName, store.currentList.songs, auth.user.email, auth.user.userName, false,[],[]);
         if (response.status === 201) {
             tps.clearAllTransactions();
             let newList = response.data.playlist;
@@ -343,6 +343,95 @@ function GlobalStoreContextProvider(props) {
         else {
             console.log("API FAILED TO CREATE A NEW LIST");
         }
+    }
+    store.likeList = async function(id, userName){
+        //inserts the name of the user into the array for the list at the given id
+        //check if the name is in the likes already
+        async function asyncLikeList(id) {
+            console.log("CURRENT LIST: ",store.currentList);
+            let response = await api.getPlaylistById(id);
+            if (response.data.success) {
+                console.log('POOPusername: '+userName);
+                let playlist = response.data.playlist;
+                if(!playlist.likes.includes(userName)){
+                    if(playlist.dislikes.includes(userName)){
+                        const index = playlist.dislikes.indexOf(userName);
+                        playlist.dislikes.splice(index);
+                    }
+                    playlist.likes.push(userName);
+                }else{
+                    const index = playlist.likes.indexOf(userName);
+                    playlist.likes.splice(index)
+                }
+                console.log('likes: ',playlist);
+                async function updateList(playlist) {
+                    response = await api.updatePlaylistById(playlist._id, playlist);
+                    if (response.data.success) {
+                        async function getListPairs(playlist) {
+                            response = await api.getPlaylistPairs();
+                            if (response.data.success) {
+                                let pairsArray = response.data.idNamePairs;
+                                storeReducer({
+                                    type: GlobalStoreActionType.CHANGE_LIST_NAME,
+                                    payload: {
+                                        idNamePairs: pairsArray,
+                                        playlist: playlist
+                                    }
+                                });
+                                console.log('number of likes AFTER: '+playlist.likes.length);
+                            }
+                        }
+                        getListPairs(playlist);
+                    }
+                }
+                updateList(playlist);
+            }
+        }
+        asyncLikeList(id);
+    }
+    store.dislikeList = async function (id,userName){
+        async function asyncDislikeList(id) {
+            console.log("CURRENT LIST: ",store.currentList);
+            let response = await api.getPlaylistById(id);
+            if (response.data.success) {
+                console.log('POOPusername: '+userName);
+                let playlist = response.data.playlist;
+                if(!playlist.dislikes.includes(userName)){
+                    if(playlist.likes.includes(userName)){
+                        const index = playlist.likes.indexOf(userName);
+                        playlist.likes.splice(index);
+                    }
+                    playlist.dislikes.push(userName);
+                }
+                else{
+                    const index = playlist.dislikes.indexOf(userName);
+                    playlist.dislikes.splice(index);
+                }
+                console.log('likes: ',playlist);
+                async function updateList(playlist) {
+                    response = await api.updatePlaylistById(playlist._id, playlist);
+                    if (response.data.success) {
+                        async function getListPairs(playlist) {
+                            response = await api.getPlaylistPairs();
+                            if (response.data.success) {
+                                let pairsArray = response.data.idNamePairs;
+                                storeReducer({
+                                    type: GlobalStoreActionType.CHANGE_LIST_NAME,
+                                    payload: {
+                                        idNamePairs: pairsArray,
+                                        playlist: playlist
+                                    }
+                                });
+                                console.log('number of likes AFTER: '+playlist.likes.length);
+                            }
+                        }
+                        getListPairs(playlist);
+                    }
+                }
+                updateList(playlist);
+            }
+        }
+        asyncDislikeList(id);
     }
     store.publishList = async function (id){
         async function asyncPublishList(id) {
