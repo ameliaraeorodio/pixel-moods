@@ -33,6 +33,18 @@ export default function UserBar() {
     const handleMenuClose = () => {
         setAnchorEl(null);
     };
+    function handleSortByName(){
+        store.loadIdNamePairsByName();
+    }
+    function handleSortByPublish(){
+        store.loadIdNamePairsByPublish()
+    }
+    function handleSortByLikes(){
+        store.loadIdNamePairsByLikes();
+    }
+    function handleSortByDislikes(){
+        store.loadIdNamePairsByDislikes();
+    }
     const logoStyle = {
         height: '10%',
         width: '10%',
@@ -46,10 +58,11 @@ export default function UserBar() {
         <Menu
             anchorEl={anchorEl}
             anchorOrigin={{
-                vertical: 'top',
+                vertical: 'bottom',
                 horizontal: 'right',
             }}
             id={sortBy}
+            getContentAnchorEl={null}
             keepMounted
             transformOrigin={{
                 vertical: 'top',
@@ -58,11 +71,11 @@ export default function UserBar() {
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
-            <MenuItem onClick={handleMenuClose}>Name (A-Z)</MenuItem>
-            <MenuItem onClick={handleMenuClose}>Publish Date (Newest)</MenuItem>
+            <MenuItem onClick={handleSortByName}>Name (A-Z)</MenuItem>
+            <MenuItem onClick={handleSortByPublish}>Publish Date (Newest)</MenuItem>
             <MenuItem onClick={handleMenuClose}>Listens (High - Low)</MenuItem>
-            <MenuItem onClick={handleMenuClose}>Likes (High - Low)</MenuItem>
-            <MenuItem onClick={handleMenuClose}>Dislikes (High - Low)</MenuItem>
+            <MenuItem onClick={handleSortByLikes}>Likes (High - Low)</MenuItem>
+            <MenuItem onClick={handleSortByDislikes}>Dislikes (High - Low)</MenuItem>
         </Menu>
     );
     let menu = sortMenu;

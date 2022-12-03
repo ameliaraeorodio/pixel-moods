@@ -48,17 +48,18 @@ export default function AppBanner() {
     const menuId = 'primary-search-account-menu';
     const loggedOutMenu = (
         <Menu
-            anchorEl={anchorEl}
-            anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-            }}
-            id={menuId}
-            keepMounted
-            transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-            }}
+        anchorEl={anchorEl}
+        anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right',
+        }}
+        id={menuId}
+        getContentAnchorEl={null}
+        keepMounted
+        transformOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+        }}
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
@@ -70,10 +71,11 @@ export default function AppBanner() {
         <Menu
             anchorEl={anchorEl}
             anchorOrigin={{
-                vertical: 'top',
+                vertical: 'bottom',
                 horizontal: 'right',
             }}
             id={menuId}
+            getContentAnchorEl={null}
             keepMounted
             transformOrigin={{
                 vertical: 'top',
