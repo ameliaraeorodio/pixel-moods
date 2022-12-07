@@ -12,6 +12,7 @@ import MUIEditSongModal from './MUIEditSongModal'
 import MUIRemoveSongModal from './MUIRemoveSongModal'
 import RegisterScreen from './RegisterScreen'
 import SongCard from './SongCard'
+import CommentCard from './CommentCard'
 import SplashScreen from './SplashScreen'
 import Statusbar from './Statusbar'
 import WorkspaceScreen from './WorkspaceScreen'
@@ -30,6 +31,7 @@ export {
     HomeScreen,
     HomeWrapper,
     ListCard, 
+    CommentCard,
     LoginScreen,
     MUIDeleteModal,
     MUIEditSongModal,

@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react'
+import AuthContext from '../auth'
 import { GlobalStoreContext } from '../store'
 import ListCard from './ListCard.js'
 import MUIDeleteModal from './MUIDeleteModal'
@@ -14,6 +15,8 @@ import Tabs from '@mui/material/Tabs';
 import YoutubePlaylister from "./YoutubePlaylister.js";
 import { TextField } from '@mui/material'
 import {Grid} from '@mui/material'
+import SongCard from './SongCard'
+import CommentCard from './CommentCard'
 /*
     This React component lists all the top5 lists in the UI.
     
@@ -21,9 +24,11 @@ import {Grid} from '@mui/material'
 */
 const HomeScreen = () => {
     const { store } = useContext(GlobalStoreContext);
+    const { auth } = useContext(AuthContext);
     const [expanded, setExpanded] = useState(false);
-
+    const [text, setText] = useState("");
     const [value, setValue] = React.useState('Player');
+    const [textVal, setTextVal] = useState('add comment');
 
     const handleChange = (panel) => (event, isExpanded) => {
         console.log("is something expanded: "+isExpanded);
@@ -34,8 +39,20 @@ const HomeScreen = () => {
         else{
             store.setCurrentList(panel);
         }
-        
       };
+      function handleComment(event) {
+        setText(event.target.value);
+        console.log('IN TEXTFIELD: '+text);
+    }
+    function handleKeyPress(event) {
+        if (event.code === "Enter") {
+            console.log('who is the current user; '+auth.user.userName);
+            store.addComment(text, auth.user.userName)
+            
+            setText('');
+            
+        }
+    }
     useEffect(() => {
         store.loadIdNamePairs();
     }, []);
@@ -44,7 +61,17 @@ const HomeScreen = () => {
     if(store.currentList){
         commentCard=
         <List sx={{ width: '90%', left: '5%', margin: '5px'}}>
+            {
+            store.currentList.comments.map((comment,index) => {
 
+                    return <CommentCard
+                    key = {index}
+                    message = {comment.message}
+                    user = {comment.user}
+                />
+                }   
+                )  
+            }
         </List>
     }
     //add a timestamp variable here
@@ -106,10 +133,10 @@ const HomeScreen = () => {
         </Tabs>
     </Box>
     const boxSize = {
-        position: 'relatifve',
+        position: 'relative',
         paddingBottom: '56.25%',
         paddingTop: '30px',
-        height: '0',
+        height: '100px',
         overflow: 'hidden'
     }
     const youtubeSize ={
@@ -129,21 +156,25 @@ const HomeScreen = () => {
         </Box>
     }
     if(value === 'Comments'){
-        playerComments=
-        <Grid container spacing={70}>
-            <Grid item xs = {64}>
+        if(store.currentList){
+            playerComments=
+            <Grid container spacing={70}>
+                <Grid item xs = {10}>
                 <div id = 'comment-section'>
-                    {commentCard}
-                </div>
+                        {commentCard}
+                    </div>
+                </Grid>
+                <Grid item xs={4}>
+                    <TextField sx={{width: 700}}
+                        size = "small" 
+                        label = 'add comment'
+                        variant="outlined"
+                        onChange = {handleComment}
+                        onKeyPress = {handleKeyPress}
+                    />
+                </Grid>
             </Grid>
-            <Grid item xs={4}>
-                <TextField sx={{width: 700}}
-                    size = "small" 
-                    label = 'add comment'
-                    variant="outlined"
-                />
-            </Grid>
-        </Grid>
+        }
     }
     let ytvideo = 
     <Box

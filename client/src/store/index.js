@@ -39,6 +39,8 @@ export const GlobalStoreActionType = {
     LOAD_ID_NAME_PAIRS_BY_LIKES:"LOAD_ID_NAME_PAIRS_BY_LIKES",
     LOAD_ID_NAME_PAIRS_BY_DISLIKES: "LOAD_ID_NAME_PAIRS_BY_DISLIKES",
     LOAD_ID_NAME_PAIRS_BY_CREATION: "LOAD_ID_NAME_PAIRS_BY_CREATION",
+    ADD_COMMENT: "ADD_COMMENT"
+
 }
 
 // WE'LL NEED THIS TO PROCESS TRANSACTIONS
@@ -99,7 +101,8 @@ function GlobalStoreContextProvider(props) {
         listIdMarkedForDeletion: null,
         listMarkedForDeletion: null,
         currentSort: CurrentSort.NONE,
-        currentLoad: null
+        currentLoad: null,
+        currentComments: [],
     });
     const history = useHistory();
 
@@ -131,6 +134,7 @@ function GlobalStoreContextProvider(props) {
                     listMarkedForDeletion: null,
                     currentSort: store.currentSort,
                     currentLoad: store.currentLoad,
+                    currentComments: store.currentComments
                 });
             }
             // STOP EDITING THE CURRENT LIST
@@ -147,6 +151,7 @@ function GlobalStoreContextProvider(props) {
                     listMarkedForDeletion: null,
                     currentSort: store.currentSort,
                     currentLoad: store.currentLoad,
+                    currentComments: store.currentComments
                 })
             }
             // CREATE A NEW LIST
@@ -164,6 +169,7 @@ function GlobalStoreContextProvider(props) {
                     currentSort: store.currentSort
                     ,
                     currentLoad: store.currentLoad,
+                    currentComments: store.currentComments
                 })
             }
             // GET ALL THE LISTS SO WE CAN PRESENT THEM
@@ -180,6 +186,7 @@ function GlobalStoreContextProvider(props) {
                     listMarkedForDeletion: null,
                     currentSort: CurrentSort.NONE,
                     currentLoad: payload.currentLoad,
+                    currentComments: store.currentComments
                 });
             }
             // PREPARE TO DELETE A LIST
@@ -196,6 +203,7 @@ function GlobalStoreContextProvider(props) {
                     listMarkedForDeletion: payload.playlist,
                     currentSort: store.currentSort,
                     currentLoad: store.currentLoad,
+                    currentComments: store.currentComments
                 });
             }
             // UPDATE A LIST
@@ -212,6 +220,7 @@ function GlobalStoreContextProvider(props) {
                     listMarkedForDeletion: null,
                     currentSort: store.currentSort,
                     currentLoad: store.currentLoad,
+                    currentComments: store.currentComments
                 });
             }
             // START EDITING A LIST NAME
@@ -228,6 +237,7 @@ function GlobalStoreContextProvider(props) {
                     listMarkedForDeletion: null,
                     currentSort: store.currentSort,
                     currentLoad: store.currentLoad,
+                    currentComments: store.currentComments
                 });
             }
             // 
@@ -244,6 +254,7 @@ function GlobalStoreContextProvider(props) {
                     listMarkedForDeletion: null,
                     currentSort: store.currentSort,
                     currentLoad: store.currentLoad,
+                    currentComments: store.currentComments
                 });
             }
             case GlobalStoreActionType.REMOVE_SONG: {
@@ -259,6 +270,7 @@ function GlobalStoreContextProvider(props) {
                     listMarkedForDeletion: null,
                     currentSort: store.currentSort,
                     currentLoad: store.currentLoad,
+                    currentComments: store.currentComments
                 });
             }
             case GlobalStoreActionType.HIDE_MODALS: {
@@ -274,6 +286,7 @@ function GlobalStoreContextProvider(props) {
                     listMarkedForDeletion: null,
                     currentSort: store.currentSort,
                     currentLoad: store.currentLoad,
+                    currentComments: store.currentComments
                 });
             }
             case GlobalStoreActionType.PUBLISH_LIST:{
@@ -289,6 +302,7 @@ function GlobalStoreContextProvider(props) {
                     listMarkedForDeletion: null,
                     currentSort: store.currentSort,
                     currentLoad: store.currentLoad,
+                    currentComments: store.currentComments
                 });
             }
             case GlobalStoreActionType.LOAD_ID_NAME_PAIRS_BY_NAME:{
@@ -304,6 +318,7 @@ function GlobalStoreContextProvider(props) {
                     listMarkedForDeletion: null,
                     currentSort: CurrentSort.NAME,
                     currentLoad: store.currentLoad,
+                    currentComments: store.currentComments
                 });
             }
             case GlobalStoreActionType.LOAD_ID_NAME_PAIRS_BY_PUBLISHED:{
@@ -319,6 +334,7 @@ function GlobalStoreContextProvider(props) {
                     listMarkedForDeletion: null,
                     currentSort: CurrentSort.PUBLISH,
                     currentLoad: store.currentLoad,
+                    currentComments: store.currentComments
                 });
             }
             case GlobalStoreActionType.LOAD_ID_NAME_PAIRS_BY_LIKES:{
@@ -334,6 +350,7 @@ function GlobalStoreContextProvider(props) {
                     listMarkedForDeletion: null,
                     currentSort: CurrentSort.LIKES,
                     currentLoad: store.currentLoad,
+                    currentComments: store.currentComments
                 });
             }
             case GlobalStoreActionType.LOAD_ID_NAME_PAIRS_BY_DISLIKES:{
@@ -349,6 +366,7 @@ function GlobalStoreContextProvider(props) {
                     listMarkedForDeletion: null,
                     currentSort: CurrentSort.DISLIKES,
                     currentLoad: store.currentLoad,
+                    currentComments: store.currentComments
                 });
             }
             case GlobalStoreActionType.LOAD_ID_NAME_PAIRS_BY_CREATION:{
@@ -364,6 +382,23 @@ function GlobalStoreContextProvider(props) {
                     listMarkedForDeletion: null,
                     currentSort: CurrentSort.CREATED,
                     currentLoad: store.currentLoad,
+                    currentComments: store.currentComments
+                });
+            }
+            case GlobalStoreActionType.ADD_COMMENT:{
+                return setStore({
+                    currentModal : CurrentModal.NONE,
+                    idNamePairs: payload,
+                    currentList: store.currentList,
+                    currentSongIndex: -1,
+                    currentSong: null,
+                    newListCounter: store.newListCounter,
+                    listNameActive: false,
+                    listIdMarkedForDeletion: null,
+                    listMarkedForDeletion: null,
+                    currentSort: CurrentSort.NONE,
+                    currentLoad: store.currentLoad,
+                    currentComments: payload.comments
                 });
             }
             default:
@@ -434,11 +469,23 @@ function GlobalStoreContextProvider(props) {
         tps.clearAllTransactions();
         history.push("/");
     }
-
+    store.addComment = async function (message, user){
+        let list = store.currentList;   
+        let comment = {
+            user: user,
+            message: message,
+        }   
+        console.log('LIST COMMENT LENGTH: '+list.comments.length);
+        list.comments.splice(list.comments.length, 0, comment);
+        console.log("CURRENT COMMENTS: ", list.comments);
+        // NOW MAKE IT OFFICIAL
+        store.updateCurrentList();
+        console.log('did we make it to the end of the upodate');
+    }
     // THIS FUNCTION CREATES A NEW LIST
     store.createNewList = async function () {
         let newListName = "Untitled" + store.newListCounter;
-        const response = await api.createPlaylist(newListName, [], auth.user.email, auth.user.userName, false,[],[]);
+        const response = await api.createPlaylist(newListName, [], auth.user.email, auth.user.userName, false,[],[],[]);
         if (response.status === 201) {
             tps.clearAllTransactions();
             let newList = response.data.playlist;
@@ -479,7 +526,7 @@ function GlobalStoreContextProvider(props) {
     }
     store.duplicateList = async function (){
         let newListName = "COPY: " + store.currentList.name;
-        const response = await api.createPlaylist(newListName, store.currentList.songs, auth.user.email, auth.user.userName, false,[],[]);
+        const response = await api.createPlaylist(newListName, store.currentList.songs, auth.user.email, auth.user.userName, false,[],[],[]);
         if (response.status === 201) {
             tps.clearAllTransactions();
             let newList = response.data.playlist;
