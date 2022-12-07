@@ -11,7 +11,9 @@ import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
-
+import YoutubePlaylister from "./YoutubePlaylister.js";
+import { TextField } from '@mui/material'
+import {Grid} from '@mui/material'
 /*
     This React component lists all the top5 lists in the UI.
     
@@ -38,15 +40,24 @@ const HomeScreen = () => {
         store.loadIdNamePairs();
     }, []);
     let listCard = "";
+    let commentCard = "";
+    if(store.currentList){
+        commentCard=
+        <List sx={{ width: '90%', left: '5%', margin: '5px'}}>
+
+        </List>
+    }
     //add a timestamp variable here
     let timeCalc = "";
+    console.log('store: ',store);
     if (store) {
         listCard = 
             <List sx={{ width: '90%', left: '5%', margin: '5px'}}>
             {
                 store.idNamePairs.map(pair =>{
+                    
                     if(pair.published){
-                        timeCalc = new Date(pair.timestamps)
+                        timeCalc = new Date(pair.updatedAt)
                         return <ListCard
                         sx = {{ marginTop: '7px',backgroundColor:' #9CAF88'}}
                         key={pair._id}
@@ -55,6 +66,7 @@ const HomeScreen = () => {
                         expanded = {expanded === pair._id} 
                         onChange = {handleChange(pair._id)}
                         timestamp = {timeCalc.toDateString().substring(4)}
+                        user = {pair.userName}
                         isPublished = {true}
                         likes = {pair.likes}
                         isLike = {false}
@@ -66,6 +78,7 @@ const HomeScreen = () => {
                     sx = {{ marginTop: '7px',backgroundColor:'white'}}
                     key={pair._id}
                     idNamePair={pair}
+                    user = {pair.userName}
                     selected={false}
                     expanded = {expanded === pair._id} 
                     onChange = {handleChange(pair._id)}
@@ -92,6 +105,51 @@ const HomeScreen = () => {
         <Tab value="Comments" label="Comments" />
         </Tabs>
     </Box>
+    const boxSize = {
+        position: 'relatifve',
+        paddingBottom: '56.25%',
+        paddingTop: '30px',
+        height: '0',
+        overflow: 'hidden'
+    }
+    const youtubeSize ={
+        position: 'absolute',
+        top: '0',
+        left: '0',
+        width: '1%',
+        height:'1%'
+    }
+    let playerComments = "";
+    if(value == "Player"){
+        playerComments = <Box
+        sx = {{boxSize}}>
+            <YoutubePlaylister
+                sx ={{youtubeSize}}
+            />
+        </Box>
+    }
+    if(value === 'Comments'){
+        playerComments=
+        <Grid container spacing={70}>
+            <Grid item xs = {64}>
+                <div id = 'comment-section'>
+                    {commentCard}
+                </div>
+            </Grid>
+            <Grid item xs={4}>
+                <TextField sx={{width: 700}}
+                    size = "small" 
+                    label = 'add comment'
+                    variant="outlined"
+                />
+            </Grid>
+        </Grid>
+    }
+    let ytvideo = 
+    <Box
+    >
+        {playerComments}
+    </Box>
     return (
         <div id = 'home'>
             <div id = 'userbar'>
@@ -106,7 +164,7 @@ const HomeScreen = () => {
                 </div>
     
             <div id = 'comment-play-tabs'>
-                {tabs}
+                {tabs}{playerComments}
             </div>
         </div>
         

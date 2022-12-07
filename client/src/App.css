@@ -180,8 +180,22 @@ body {
   grid-area: 'lists';
   left: 0%;
   top: 20%;
+  bottom: 20%;
   width: 50%;
-  height: 80%;
+  height: 75%;
+  display: flex;
+  flex-direction: column;
+  overflow: scroll;
+}
+#comment-section{
+  max-height: 83%;
+  position: absolute;
+  grid-area: 'lists';
+  left: 50%;
+  top: 20%;
+  bottom: 20%;
+  width: 50%;
+  height: 65%;
   display: flex;
   flex-direction: column;
   overflow: scroll;

@@ -36,7 +36,7 @@ function ListCard(props) {
     const { auth } = useContext(AuthContext);
     const [editActive, setEditActive] = useState(false);
     const [text, setText] = useState("");
-    const { idNamePair, selected, expanded, onChange,sx, timestamp, likes,dislikes, isLike, isDislike} = props;
+    const { idNamePair, selected, expanded, onChange,sx,user, timestamp, likes,dislikes, isLike, isDislike} = props;
 
     function handleLoadList(event, id) {
         console.log("handleLoadList for " + id);
@@ -148,13 +148,10 @@ function ListCard(props) {
       };
     //getting the username will have to change since we are accessing multiple
     //people but this will have to do for now
-    let username = "";
-    if(auth.user){
-        username = auth.getUserName()
-    }
+
     
     //background color is what would cahnge when u check published/unpublished
-   
+    
     let cardElement ="";
     if(idNamePair.published){
         cardElement =
@@ -170,7 +167,7 @@ function ListCard(props) {
         >
             <Box>
                 <Typography sx = {{fontSize: '150%'}}>{idNamePair.name}</Typography>
-                <Typography>By: {username}</Typography>
+                <Typography>By: {user}</Typography>
                 <Typography sx = {{fontSize: '70%'}}>Published: {timestamp}</Typography>
                 
             </Box>
@@ -202,7 +199,7 @@ function ListCard(props) {
         >
             <Box>
                 <Typography sx = {{fontSize: '150%'}}>{idNamePair.name}</Typography>
-                <Typography>By: {username}</Typography>
+                <Typography>By: {user}</Typography>
             </Box>
         </AccordionSummary>
         <AccordionDetails>
