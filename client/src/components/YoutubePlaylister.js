@@ -1,18 +1,28 @@
 import React from 'react';
 import YouTube from 'react-youtube';
-
-export default function YouTubePlayerExample() {
+import {Grid} from '@mui/material'
+import { GlobalStoreContext } from '../store'
+import { useState, useContext, useEffect } from 'react'
+import {Card} from '@mui/material';
+import {CardContent} from '@mui/material';
+import {Typography} from '@mui/material';
+import PlayButtons from './PlayButtons';
+import {Box} from '@mui/material';
+function YoutubePlaylister() {
+    const { store } = useContext(GlobalStoreContext);
+    
     // THIS EXAMPLE DEMONSTRATES HOW TO DYNAMICALLY MAKE A
     // YOUTUBE PLAYER AND EMBED IT IN YOUR SITE. IT ALSO
     // DEMONSTRATES HOW TO IMPLEMENT A PLAYLIST THAT MOVES
     // FROM ONE SONG TO THE NEXT
 
     // THIS HAS THE YOUTUBE IDS FOR THE SONGS IN OUR PLAYLIST
-    let playlist = [
-        "mqmxkGjow1A",
-        "8RbXIMZmVv8",
-        "8UbNbor3OqQ"
-    ];
+    let playlist = [];
+    let songs = [];
+    store.currentList.songs.map((song, index)=>{
+        playlist.push(song.youTubeId);
+        songs.push(song);
+    })
 
     // THIS IS THE INDEX OF THE SONG CURRENTLY IN USE IN THE PLAYLIST
     let currentSong = 0;
@@ -75,9 +85,43 @@ export default function YouTubePlayerExample() {
         }
     }
 
-    return <YouTube
+    return <Grid container spacing={3}>
+        <Grid item xs = {11}>
+        <YouTube
         videoId={playlist[currentSong]}
         opts={playerOptions}
         onReady={onPlayerReady}
-        onStateChange={onPlayerStateChange} />;
+        onStateChange={onPlayerStateChange} />
+        </Grid>
+        <Grid item xs = {10.5}>
+        <Card sx={{ minWidth: 200, bgcolor: '#FEFBEA' }}>
+        <CardContent>
+          <Typography align= "center" sx={{ fontSize: 20 }} gutterBottom>
+            now playing
+          </Typography>
+          <Typography sx={{fontSize: 16}}>
+            playlist: {store.currentList.name}
+          </Typography>
+          <Typography sx={{fontSize: 16}}>
+            song #: {currentSong}
+          </Typography>
+          <Typography sx={{fontSize: 16}}>
+            title: {songs[currentSong].title}
+          </Typography>
+          <Typography sx={{fontSize: 16}}>
+            artist: {songs[currentSong].artist}
+          </Typography>
+          <Box sx={{display:"flex",
+            justifyContent:"center",
+            alignItems:"center",
+            marginLeft: '60px'
+        }}
+            >
+                <PlayButtons/>
+          </Box>
+        </CardContent>
+      </Card>
+        </Grid>
+    </Grid>;
 }
+export default YoutubePlaylister;

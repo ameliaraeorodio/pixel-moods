@@ -132,28 +132,13 @@ const HomeScreen = () => {
         <Tab value="Comments" label="Comments" />
         </Tabs>
     </Box>
-    const boxSize = {
-        position: 'relative',
-        paddingBottom: '56.25%',
-        paddingTop: '30px',
-        height: '100px',
-        overflow: 'hidden'
-    }
-    const youtubeSize ={
-        position: 'absolute',
-        top: '0',
-        left: '0',
-        width: '1%',
-        height:'1%'
-    }
     let playerComments = "";
     if(value == "Player"){
-        playerComments = <Box
-        sx = {{boxSize}}>
-            <YoutubePlaylister
-                sx ={{youtubeSize}}
-            />
+        if(store.currentList){
+            playerComments = <Box>
+            <YoutubePlaylister/>
         </Box>
+        }
     }
     if(value === 'Comments'){
         if(store.currentList){
