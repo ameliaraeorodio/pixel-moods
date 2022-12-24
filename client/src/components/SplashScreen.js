@@ -11,7 +11,7 @@ export default function SplashScreen() {
         justifyContent: 'center',
         flexDirection: 'row',
         gap: '10px',
-        margin: '10px',
+        margin: '50px',
     }
     const button = {
         color: 'red', 
@@ -29,21 +29,14 @@ export default function SplashScreen() {
     }
     return (
         <div id = "splash-screen">
-            <Box component = "img"
-                src = "playlister logo.png"
-                sx = {logoStyle}
-            ></Box>
-            <h6 id = "welcome-text">
-                Welcome to Playlister!
-            </h6>
-            <p id= "splash-text">Playlister is a simple yet effective web 
-                application where users can create and 
-                publish their own playlists. </p>
-            <p id = "splash-text">
-                The user can 
-                choose to create an account or browse the
-                 app as a guest.
-            </p>
+            <Box className = 'font-link'
+                sx = {{fontSize: '200%', margin: '60px'}}
+            > pixel moods</Box>
+            <Box className = 'font-link'
+                sx = {{fontSize: '40%', marginTop: '120px'}}
+            >
+                the daily mood tracker to incorperate in your everyday routine
+            </Box>
             <div id="login-container">
                     <Box sx = {buttons}>
                         <Button 
@@ -60,13 +53,7 @@ export default function SplashScreen() {
                             
                         >Log In
                         </Button>
-                        <Button 
-                        href='/'
-                        sx = {button} 
-                        variant = "contained"
-                            
-                        >Continue as Guest
-                        </Button>
+
                     </Box>
                 </div>
         </div>

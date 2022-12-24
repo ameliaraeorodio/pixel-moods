@@ -167,11 +167,7 @@ const HomeScreen = () => {
         {playerComments}
     </Box>
     return (
-        <div id = 'home'>
-            <div id = 'userbar'>
-                <UserBar/>
-            </div>
-            
+        <div id = 'home'>            
                 <div id="list-selector-list">
                     {
                         listCard
@@ -180,7 +176,7 @@ const HomeScreen = () => {
                 </div>
     
             <div id = 'comment-play-tabs'>
-                {tabs}{playerComments}
+                {playerComments}
             </div>
         </div>
         

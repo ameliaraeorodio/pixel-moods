@@ -96,7 +96,7 @@ export default function AppBanner() {
         let userInitials = auth.getUserInitials();
         console.log("userInitials: " + userInitials);
         if (loggedIn) 
-            return <div>{userInitials}</div>;
+            return <div class = 'font-link'>{userInitials}</div>;
         else
             return <AccountCircle/>;
     }
@@ -105,10 +105,7 @@ export default function AppBanner() {
         <Box sx={{ flexGrow: 1}}>
             <AppBar   style={{ background: '#FFC1CC' }} position="static" >
                 <Toolbar>
-                <Box component = "img"
-                src = "playlister logo.png"
-                sx = {logoStyle}
-            ></Box>
+                
                     <Typography                        
                         variant="h4"
                         noWrap

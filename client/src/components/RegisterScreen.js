@@ -136,7 +136,6 @@ export default function RegisterScreen() {
                     </Box>
                     {modalJSX}
                 </Box>
-                <Copyright sx={{ mt: 5 }} />
             </Container>
     );
 }
